@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace ConsoleApp1
 {
@@ -11,8 +12,10 @@ namespace ConsoleApp1
             string B="any%";
             object C;
             C = B.GetType();
+            Type D;
+            D = C.GetType();
 
-            Console.WriteLine($"Переменная А: {A}  Переменная Б: {B} Переменная С: {C} ");
+            Console.WriteLine($"Переменная А: {A}  Переменная Б: {B} Переменная С: {C} Переменная D: {D} ");
         }
     }
 }
