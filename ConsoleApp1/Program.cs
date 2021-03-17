@@ -7,15 +7,37 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            float A;
-            A = 5.5F;
-            string B="any%";
-            object C;
-            C = B.GetType();
-            Type D;
-            D = C.GetType();
+            double money_in_bank=0;
+            double cash=5;
+            string invest;
+            var rand = new Random();
+            // float percent = rand.Next(-1000, 1000)/1000;
+            double percent = (rand.Next(-1000,1000));
+            percent = percent / 1000;
+            int year = 0;
 
-            Console.WriteLine($"Переменная А: {A}  Переменная Б: {B} Переменная С: {C} Переменная D: {D} ");
+            while (cash > 0 || money_in_bank > 0)
+                {
+
+                    Console.WriteLine($"It is {year} year. You currently have {cash} in cash and {money_in_bank} in a bank. Do you want to invest it with a yearly rate of {percent} gain ? (Y/N)");
+                    invest = Console.ReadLine();
+
+                    if (invest == "Y" || invest == "y")
+                    {
+                        
+                        money_in_bank = cash * (1 + percent);
+                        cash = 0;
+                    }
+                    else
+                    {
+                        
+                        cash += money_in_bank;
+                        money_in_bank = 0;
+                }
+                percent = (rand.Next(-1000,1000));
+                percent = percent / 1000;
+                year++;
+                }
         }
     }
 }
