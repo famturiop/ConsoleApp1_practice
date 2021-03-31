@@ -19,30 +19,12 @@ namespace ConsoleApp1
 
             while (cash > 0 || money_in_bank > 0)
             {
-                // привет, я тоже тут
-                // О_о
+
                 Console.WriteLine($"It is {year} year. " +
                                   $"You currently have {cash} in cash and {money_in_bank} in a bank. " +
                                   $"Bank commision is {commision}. " +
                                   $"Do you want to invest it with a yearly rate of {percent} gain ? (Y/N)");
                 ConsoleKeyInfo insertedConsoleKeyInfo = Console.ReadKey();
-                // ConsoleKeyInfo общая информация
-                //insertedConsoleKeyInfo.              // посмотри какие методы тут есть. 
-                // промежуточный обьект нужен зачем? и почему он inserted называется?
-                //и почему он inserted называется?
-                // что бы не путать с типом
-                // ConsoleKeyInfo - тип      insertedConsoleKeyInfo - переменная
-
-                //промежуточный обьект нужен зачем?
-                // не обязательно, но в начале лучше прописывать, что бы не запутаться
-                // окай
-                // попробуй запустить дебаг
-                // и что я должен увидеть?
-
-                // Посмотреть что записалось в insertedConsoleKeyInfo, в объект
-                //странно. Счапокажу как оно у меня
-                // у меня тип System.ConsoleKeyInfo, а значение {System.ConsoleKeyInfo}
-                // вк
 
                 char invest = insertedConsoleKeyInfo.KeyChar;
 
@@ -65,4 +47,40 @@ namespace ConsoleApp1
             Console.WriteLine("Congratulations! You are bankrupt.");
         }
     }
+
+    class Customer
+    {
+        private string status;
+        private bool IsBunkrupt;
+        private double cash;
+
+        void PutMoneyInABank(ref double cash, ref double cashInABank)
+        {
+            cashInABank = cash + cashInABank;
+            cash = 0;
+        }
+
+        void WithdrawMoneyFromABank(ref double cash, ref double cashInABank)
+        {
+            cash = cash + cashInABank;
+            cashInABank = 0;
+        }
+
+        char ReplyToRequest()
+        {
+            ConsoleKeyInfo insertedConsoleKeyInfo = Console.ReadKey();
+            char reply = insertedConsoleKeyInfo.KeyChar;
+            return reply;
+        }
+
+    }
+
+    class Bank
+    {
+        private double percent;
+        private double commision;
+        private double ClientMoney;
+
+    }
+
 }
