@@ -13,7 +13,7 @@ namespace ConsoleApp1
             Bank bank = new Bank();
 
             bool i = true;
-            if (client.IsBunkrupt) { i = false;}
+            if (client.GetIsBunkrupt()) { i = false;}
             Bank.SendHello();
             ConsoleKeyInfo insertedConsoleKeyInfo = Console.ReadKey();
             char number = insertedConsoleKeyInfo.KeyChar;
@@ -24,10 +24,11 @@ namespace ConsoleApp1
                 switch (number)
                 {
                     case '0':
-                        if (client.IsBunkrupt)
+                        if (client.GetIsBunkrupt())
                         {
                             i = false;
                             Bank.ClientIsBunkrupt();
+                            
                             break;
                         }
                         Bank.SendHello();
@@ -55,7 +56,7 @@ namespace ConsoleApp1
                         
                         //Console.ReadKey();
                         Bank.SendARequestChoice();
-                        bank.ClientMoneyInvesting(client.ReplyToRequest(),ref client.IsBunkrupt);
+                        bank.ClientMoneyInvesting(client.ReplyToRequest(), client);
                         //Console.ReadKey();
                         goto case '0';
                     case '4':
@@ -71,10 +72,14 @@ namespace ConsoleApp1
         }
     }
 
-    class Customer
+    class PersonStatus
+    {
+        protected bool IsBunkrupt = false;
+    }
+    class Customer: PersonStatus
     {
         public string status;
-        public bool IsBunkrupt = false;
+        
         public double cash=100;
 
         public void PutMoneyInABank(ref double cash, ref double cashInABank)
@@ -95,7 +100,18 @@ namespace ConsoleApp1
             return reply;
         }
 
+        public bool GetIsBunkrupt()
+        {
+            return IsBunkrupt;
+        }
+        public bool SetIsBunkrupt(bool status)
+        {
+            IsBunkrupt = status;
+            return IsBunkrupt;
+        }
+
     }
+
 
     class Bank
     {
@@ -175,12 +191,21 @@ namespace ConsoleApp1
             percent = 2*(rand.NextDouble())-1;
         }
 
-        public void ClientMoneyInvesting(string ClientMsg, ref bool IsBunkrupt)
+        public void ClientMoneyInvesting(string ClientMsg, Customer Client)
         {
             if (ClientMsg == "f" || ClientMsg == "F")
             {
                 InvestingMoney += ClientMoney;
                 ClientMoney = 0;
+
+                InvestingMoney = (InvestingMoney) * (1 + percent) - commision;
+                ClientMoney += InvestingMoney;
+                InvestingMoney = 0;
+
+                if (ClientMoney < 0)
+                {
+                    Client.SetIsBunkrupt(true);
+                }
             }
             else
             {
@@ -195,7 +220,7 @@ namespace ConsoleApp1
 
                     if (ClientMoney < 0)
                     {
-                        IsBunkrupt = true;
+                        Client.SetIsBunkrupt(true);
                     }
                 }
                 else
